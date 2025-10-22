@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Ofrenda1 </title>
+    <link rel="icon" type="image/jpg" href="./image/icon.jpg"/>
+</head>
+<body>
+   
+<canvas id="myCanvas">
+    <!--El elemento HTML canvas se puede utilizar para dibujar gráficos a través de
+        secuencias de comandos (por lo general JavaScript ).-->
+</canvas>
+ 
+<!-- Aquí va todo el código de three.js -->
+<!-- script type="importmap" importa las librerías necesarias para three.js-->
+<script src="./font/03.js"></script> 
+<script type="importmap">
+
+    {
+        "imports":{
+            "three": "./js/three.module.js",
+            "three/OrbitControls": "./js/OrbitControls.js"
+        }
+}
+</script>
+<script type="module">
+//🗃️🗃️ Mandar llamar a la librería
+    import * as THREE from 'three';
+    import {OrbitControls} from 'three/OrbitControls';
+    
+    console.log(OrbitControls);
+
+        //declarar objetos agregados 
+    import vela from"./objetos/Vela.js"
+    import pan from"./objetos/pan.js"
+   // import marco from"./objetos/ma.js"
+    import base from"./objetos/base.js"
+    import plato from"./objetos/plato.js"
+    import cruz from"./objetos/cruz.js"
+    import copal from"./objetos/copal.js"
+    import flor from"./objetos/flor.js"
+    import frutas from"./objetos/frutas.js"
+    import loteria from"./objetos/loteria.js"
+    import marco1 from"./objetos/marco1.js"
+    import marco2 from"./objetos/marco2.js"
+    import marco3 from"./objetos/marco3.js"
+    import marco4 from"./objetos/marco4.js"
+    import marco5 from"./objetos/marco5.js"
+    import taza from"./objetos/taza.js"
+    import vela2 from"./objetos/vela2.js"
+    import plato2 from"./objetos/plato2.js"
+    import paso from"./objetos/paso.js"
+    import paso2 from"./objetos/paso2.js"
+    import paso3 from"./objetos/paso3.js"
+    import paso4 from"./objetos/paso4.js"
+    import arco from"./objetos/arco.js"
+    import florh from"./objetos/florh.js"
+    import florh2 from"./objetos/florh2.js"
+    import botella from"./objetos/botella.js"
+    import elote from"./objetos/elote.js"
+    import papelp from"./objetos/papelp.js"
+    import papelp2 from"./objetos/papelp2.js"
+    import papelp3 from"./objetos/papelp3.js"
+    import papelp4 from"./objetos/papelp4.js"
+    import papelp5 from"./objetos/papelp5.js"
+
+
+    import{TextGeometry} from "./js/TextGeometry.js";
+    import{FontLoader} from "./js/FontLoader.js"; 
+    import{RoundedBoxGeometry} from "./js/RoundedBoxGeometry.js";
+ 
+//🕹️🕹️ Renderer - Realiza una conexión entre el código y el canvas
+    var renderer = new THREE.WebGLRenderer({
+    canvas: document.getElementById('myCanvas'), antialias: true,
+    });
+    renderer.setPixelRatio(window.decivePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0x9F29FF);
+ 
+ 
+// 🎬 Creando nueva escena - Es el espacio donde se colocan los objetos
+    var scene = new THREE.Scene();
+ 
+//🎥🎥 Agregar una cámara de perspectiva
+    var camera = new THREE.PerspectiveCamera(70,window.innerWidth / window.innerHeight,0.1,2000
+      );
+    scene.add(camera);
+
+//Codigo agregado para ajuste automatico de canvas______________________________________________________________
+        
+    
+    // Evento para redimensionar el canvas
+    //Sizes: Objeto donde se toman los tamaños interiores 'inner' de la ventana.
+    const sizes = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+    };
+    // Tomando el 'canvas' mediante el id 'myCanvas' del HTML para cambiar sus dimensiones
+    const canvas = document.getElementById('myCanvas');
+    // Evento que se ejecutará al redimensionar 'resize' nuestra ventana
+    window.addEventListener('resize', () => {
+    // Actualizando los valores del objeto 'sizes' con las medidas internas de la ventana
+    sizes.width = window.innerWidth;
+    sizes.height = window.innerHeight;
+    // Actualización de los valores en la cámara como la relación-aspecto y la
+    //matriz de proyección.
+    camera.aspect = sizes.width / sizes.height;
+    camera.updateProjectionMatrix();
+    // Aplicando al render el nuevo tamaño del 'viewport'
+    renderer.setSize(sizes.width, sizes.height);
+    });
+ //termina el código agregado de canvas_________________________________________________________________________
+    
+ 
+    //Settings de la cámara
+    camera.position.set(0, 350, 500);
+ 
+    // Añadiendo los OrbitControls
+    var controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+
+    //SOMBRA
+
+    renderer.shadowMap.enabled= true;
+    renderer.shadowMap.type = THREE.PCFShdowMapa;
+
+    var light =new THREE.DirectionalLight(0xffffff,1);
+    light.position.set(0,60,90);
+    light.target.position.set(0,0,0); //cuando hay sombra
+    light.castShadow=true;
+    light.shadow.bias=0.01;
+    light.shadow.mapSize.width= 512*3;
+    light.shadow.mapSize.height=512*3;
+
+    light.shadow.camera.top=400;
+    light.shadow.camera.right=400;
+    light.shadow.camera.left=-400;
+    light.shadow.camera.bottom=-400;
+    light.shadow.camera.visible=true;
+
+    var directionalHelper=new  THREE.CameraHelper(light.shadow.camera);
+    //scene.add(directionalHelper);
+
+    scene.add(light);
+    
+
+    //PUNTO DE LUZ
+
+        var pl01= new THREE.PointLight(0xffffff,50,20,25);
+        pl01.position.set(80,20,0);
+        scene.add(pl01);
+        var helper01= new THREE.PointLightHelper(pl01);
+        scene.add(helper01);
+
+    //PUNTO DE LUZ2
+
+    var pl02= new THREE.PointLight(0xFFBABA,5,150,5);
+    pl02.position.set(0,10,0);
+    scene.add(pl02);
+    var helper02= new THREE.PointLightHelper(pl02);
+    //scene.add(helper01);
+
+
+        // Luz
+      var light = new THREE.DirectionalLight(0xffffff, 0.2);
+      light.position.set(5, 10, 5);
+      light.castShadow = true;
+      scene.add(light);
+      var ambient = new THREE.AmbientLight(0xffffff, 0.2);
+      scene.add(ambient);
+
+     
+//  comienza codigo Espacio para colocar los objetos
+   
+
+
+    //________________________________________________textura 1 fondo- textura _______________________________________________________________________________________________________________________
+var loader = new THREE.TextureLoader();
+var bgTexture = loader.load('./image/fo4.jpeg');
+scene.background = bgTexture;
+   //____________________________
+
+    //3d box base_piso
+    var geometry1 = new THREE.BoxGeometry(1000,0.5,1000);
+    var material01 = new THREE.MeshBasicMaterial({
+        color: 0x4B0082
+    });  
+    var mesh01 = new THREE.Mesh(geometry1, material01);
+    mesh01.position.set(0, 0, 0);
+    scene.add(mesh01);
+  
+    mesh01.receiveShadow= true;
+
+
+ // Fuente_______________________________________________________________________________________________________________
+  var loader = new FontLoader();
+  var font = loader .parse(fontJSON3);
+  var geometry20 = new TextGeometry('Ofrenda',{
+    font:font,
+    size: 20,
+    height:10,
+  });
+  geometry20.center();
+
+  var material20 = new THREE.MeshLambertMaterial({
+
+    color: 0x27034A,
+    emissive:0x000000,
+    shading: THREE.FlatShading,
+
+  });
+
+  var meshTexto= new THREE.Mesh(geometry20,material20);
+  scene.add(meshTexto);
+
+    meshTexto.position.set(0,20,300)
+    meshTexto.castShadow=true; 
+//termina la fuente____________________________--------------
+
+  
+  //____________Comienza codigo ofrenda____________________________________________
+  //________________VELA______________________
+   var escenario1= vela({x:0,y:0,z:0});
+   scene.add(escenario1);
+
+   escenario1.position.set(85,68,70);
+   escenario1.scale.set(3,3,3);
+
+   escenario1.receiveShadow= true;
+
+   //________________VELA 1.1______________________
+   var escenario1= vela({x:0,y:0,z:0});
+   scene.add(escenario1);
+
+   escenario1.position.set(85,68,-70);
+   escenario1.scale.set(3,3,3);
+
+   escenario1.receiveShadow= true;
+   
+   
+     //________________VELA 2______________________
+   var escenario1= vela({x:0,y:0,z:0});
+   scene.add(escenario1);
+
+   escenario1.position.set(-85,68,70);
+   escenario1.scale.set(3,3,3);
+
+    //________________VELA 2.1______________________
+   var escenario1= vela({x:0,y:0,z:0});
+   scene.add(escenario1);
+
+   escenario1.position.set(-85,68,-70);
+   escenario1.scale.set(3,3,3);
+
+   //______________PAN_____________________
+
+   var escenario2= pan({x:0,y:0,z:0});
+   scene.add(escenario2);
+
+   escenario2.position.set(-75,68,0);
+   escenario2.scale.set(4,4,4);
+   //______________PAN 2 lat_____________________
+
+   var escenario2= pan({x:0,y:0,z:0});
+   scene.add(escenario2);
+
+   escenario2.position.set(75,68,0);
+   escenario2.scale.set(4,4,4);
+
+
+   //______________PAN 2_____________________
+
+   var escenario2= pan({x:0,y:0,z:0});
+   scene.add(escenario2);
+
+   escenario2.position.set(0,13,160);
+   escenario2.scale.set(4,4,4);
+
+//________________MARCO SIN FOTO______________________
+  // var escenario3= marco({x:0,y:0,z:0});
+   //scene.add(escenario3);
+
+   //escenario3.position.set(0,-40,103);
+   //escenario3.scale.set(4,4,4);
+
+//________________base______________________
+   var escenario4= base({x:0,y:0,z:0});
+   scene.add(escenario4);
+
+   escenario4.position.set(0,17,0);
+   escenario4.scale.set(4,4,4);
+
+   //________________plato______________________
+   var escenario5= plato({x:0,y:0,z:0});
+   scene.add(escenario5);
+
+   escenario5.position.set(-75,75,0);
+   escenario5.scale.set(4,4,4);
+   //________________plato 2 lat______________________
+   var escenario5= plato({x:0,y:0,z:0});
+   scene.add(escenario5);
+
+   escenario5.position.set(75,75,0);
+   escenario5.scale.set(4,4,4);
+ //________________cruz______________________
+   var escenario6= cruz({x:0,y:0,z:0});
+   scene.add(escenario6);
+
+   escenario6.position.set(0,100,0);
+   escenario6.scale.set(4,4,4);
+   //________________copal izq______________________
+   var escenario7= copal({x:0,y:0,z:0});
+   scene.add(escenario7);
+
+   escenario7.position.set(150,30,160);
+   escenario7.scale.set(4,4,4);
+
+   //________________copal der______________________
+   var escenario7= copal({x:0,y:0,z:0});
+   scene.add(escenario7);
+
+   escenario7.position.set(-150,30,160);
+   escenario7.scale.set(4,4,4);
+
+
+   //_______________loteria 1______________________
+   var escenario8= loteria({x:0,y:0,z:0});
+   scene.add(escenario8);
+
+   escenario8.position.set(150,30,50);
+   escenario8.scale.set(1,1,1);
+   escenario8.rotation.set(0,1.57,0);
+
+   //_______________loteria 2_____________________
+   var escenario8= loteria({x:0,y:0,z:0});
+   scene.add(escenario8);
+
+   escenario8.position.set(0,30,-180);
+   escenario8.scale.set(1,1,1);
+   
+
+   //________________marco1______________________
+   var escenario9= marco1({x:0,y:0,z:0});
+   scene.add(escenario9);
+
+   escenario9.position.set(50,-37,123);
+   escenario9.scale.set(4,4,4);
+
+   escenario9.rotation.set(0,-0.5235,0);
+    escenario9.castShadow = true;
+   
+   //________________marco2______________________
+   var escenario10= marco2({x:0,y:0,z:0});
+   scene.add(escenario10);
+
+   escenario10.position.set(-100,-65,160);
+   escenario10.scale.set(4,4,4);
+
+   escenario10.rotation.set(0,0.6108,0);
+    escenario10.castShadow = true;
+   //________________marco3______________________
+   var escenario11= marco3({x:0,y:0,z:0});
+   scene.add(escenario11);
+
+   escenario11.position.set(-50,-37,123);
+   escenario11.scale.set(4,4,4);
+
+   escenario11.rotation.set(0,0.5235,0);
+    escenario11.castShadow = true;
+    escenario11.receiveShadow= true;
+
+   //________________marco4______________________
+   var escenario12= marco4({x:0,y:0,z:0});
+   scene.add(escenario12);
+
+   escenario12.position.set(0,-10,70);
+   escenario12.scale.set(4,4,4);
+
+   //________________marco5______________________
+   var escenario13= marco5({x:0,y:0,z:0});
+   scene.add(escenario13);
+
+   escenario13.position.set(100,-65,160);
+   escenario13.scale.set(4,4,4);
+
+   escenario13.rotation.set(0,-0.6108,0);
+    escenario13.castShadow = true;
+   
+   //________________taza______________________
+   var escenario14= taza({x:0,y:0,z:0});
+   scene.add(escenario14);
+
+   escenario14.position.set(50,85,70);
+   escenario14.scale.set(4,4,4);
+
+   //________________taza 2______________________
+   var escenario14= taza({x:0,y:0,z:0});
+   scene.add(escenario14);
+
+   escenario14.position.set(50,30,160);
+   escenario14.scale.set(4,4,4);
+
+   
+   //________________taza 3______________________
+   var escenario14= taza({x:0,y:0,z:0});
+   scene.add(escenario14);
+
+   escenario14.position.set(-50,30,160);
+   escenario14.scale.set(4,4,4);
+
+   //________________taza 4______________________
+   var escenario14= taza({x:0,y:0,z:0});
+   scene.add(escenario14);
+
+   escenario14.position.set(-170,30,0);
+   escenario14.scale.set(4,4,4);
+
+   //________________taza 5______________________
+   var escenario14= taza({x:0,y:0,z:0});
+   scene.add(escenario14);
+
+   escenario14.position.set(170,30,0);
+   escenario14.scale.set(4,4,4);
+   
+   //________________vela2______________________
+   var escenario15= vela2({x:0,y:0,z:0});
+   scene.add(escenario15);
+
+   escenario15.position.set(90,55,120);
+   escenario15.scale.set(1.5,1.5,1.5);
+
+   escenario15.receiveShadow= true;
+   
+   //________________vela2.1______________________
+   var escenario15= vela2({x:0,y:0,z:0});
+   scene.add(escenario15);
+
+   escenario15.position.set(-90,55,120);
+   escenario15.scale.set(1.5,1.5,1.5);
+
+    escenario15.receiveShadow= true;
+
+//________________vela2______________________
+   var escenario15= vela2({x:0,y:0,z:0});
+   scene.add(escenario15);
+
+   escenario15.position.set(90,55,-120);
+   escenario15.scale.set(1.5,1.5,1.5);
+
+   escenario15.receiveShadow= true;
+   
+   //________________vela2.1______________________
+   var escenario15= vela2({x:0,y:0,z:0});
+   scene.add(escenario15);
+
+   escenario15.position.set(-90,55,-120);
+   escenario15.scale.set(1.5,1.5,1.5);
+
+    escenario15.receiveShadow= true;
+    
+
+   //________________frutas______________________
+   var escenario16= frutas({x:0,y:0,z:0});
+   scene.add(escenario16);
+
+   escenario16.position.set(0,45,120);
+   escenario16.scale.set(4,4,4);
+
+
+
+
+   //________________plato 1______________________
+   var escenario17= plato2({x:0,y:0,z:0});
+   scene.add(escenario17);
+
+   escenario17.position.set(0,50,125);
+   escenario17.scale.set(4,4,4);
+
+   //________________frutas 2______________________
+   var escenario16= frutas({x:0,y:0,z:0});
+   scene.add(escenario16);
+
+   escenario16.position.set(0,45,-130);
+   escenario16.scale.set(4,4,4);
+
+   //________________plato 2______________________
+   var escenario17= plato2({x:0,y:0,z:0});
+   scene.add(escenario17);
+
+   escenario17.position.set(0,50,-125);
+   escenario17.scale.set(4,4,4);
+
+   //________________flores horizontales 1 3er nivel______________________
+   var escenario18= flor({x:0,y:0,z:0});
+   scene.add(escenario18);
+
+   escenario18.position.set(0,88,53.5);
+   escenario18.scale.set(1.5,1.5,2.5);
+
+   //________________paso______________________
+   var escenario19= paso({x:0,y:0,z:0});
+   scene.add(escenario19);
+
+   escenario19.position.set(300,1.5,0);
+   escenario19.scale.set(4,4,4);
+
+    //________________paso2______________________
+   var escenario20= paso2({x:0,y:0,z:0});
+   scene.add(escenario20);
+
+   escenario20.position.set(-300,1.5,0);
+   escenario20.scale.set(4,4,4);
+
+   //________________paso3______________________
+   var escenario21= paso3({x:0,y:0,z:0});
+   scene.add(escenario21);
+
+   escenario21.position.set(0,1.5,300);
+   escenario21.scale.set(4,4,4);
+   
+   //________________paso4______________________
+   var escenario22= paso4({x:0,y:0,z:0});
+   scene.add(escenario22);
+
+   escenario22.position.set(0,1.5,-300);
+   escenario22.scale.set(4,4,4);
+
+   //________________arco______________________
+   var escenario23= arco({x:0,y:0,z:0});
+   scene.add(escenario23);
+
+   escenario23.position.set(0,-30,-300);
+   escenario23.scale.set(6,5,5);
+
+//________________flores horizontales 2 traseras 3er nivel______________________
+   var escenario24= florh({x:0,y:0,z:0});
+   scene.add(escenario24);
+
+   escenario24.position.set(0,88,-53.5);
+   escenario24.scale.set(1.5,1.5,2.5);
+   
+//________________flores horizontales 1 delantera 2do nivel______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(-50,60,102);
+   escenario25.scale.set(1.5,1.5,2.5);
+//________________flores horizontales 2 delantera 2do nivel______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(50,60,102);
+   escenario25.scale.set(1.5,1.5,2.5);
+
+//________________flores horizontales 1 traseras 2do nivel______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(-50,60,-102);
+   escenario25.scale.set(1.5,1.5,2.5);
+//________________flores horizontales 2 traseras 2do nivel______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(50,60,-102);
+   escenario25.scale.set(1.5,1.5,2.5);
+
+//________________flores horizontales 1 delantera 1er nivel______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(-90,30,142);
+   escenario25.scale.set(1.5,1.5,2.5);
+
+//________________flores horizontales 2 delantera 1er nivel______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(15,30,142);
+   escenario25.scale.set(1.5,1.5,2.5);
+
+//________________flores horizontales 3 delantera 1er nivel______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(90,30,142);
+   escenario25.scale.set(1.5,1.5,2.5);
+
+//________________flores horizontales 1 traseras 1er nivel______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(-90,30,-142);
+   escenario25.scale.set(1.5,1.5,2.5);
+//________________flores horizontales 2 traseras 1er nivel______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(15,30,-142);
+   escenario25.scale.set(1.5,1.5,2.5);
+
+//________________flores horizontales 3 traseras 1er nivel______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(90,30,-142);
+   escenario25.scale.set(1.5,1.5,2.5);
+
+//________________flores Verticales 1 traseras 1er nivel______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(140,30,90);
+   escenario25.scale.set(1.5,1.5,2.5);
+   
+
+    escenario25.rotation.set(0,1.57,0);
+    escenario25.castShadow = true;
+
+//________________flores Verticales 2 traseras 1er nivel______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(140,30,0);
+   escenario25.scale.set(1.5,1.5,2.5);
+   
+
+    escenario25.rotation.set(0,1.57,0);
+    escenario25.castShadow = true;
+
+//________________flores Verticales 3 traseras 1er nivel______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(140,30,-90);
+   escenario25.scale.set(1.5,1.5,2.5);
+   
+
+    escenario25.rotation.set(0,1.57,0);
+    escenario25.castShadow = true;
+
+//________________flores Verticales 1 traseras 1er nivel______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(-140,30,90);
+   escenario25.scale.set(1.5,1.5,2.5);
+   
+
+    escenario25.rotation.set(0,1.57,0);
+    escenario25.castShadow = true;
+
+//________________flores Verticales 2 traseras 1er nivel______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(-140,30,0);
+   escenario25.scale.set(1.5,1.5,2.5);
+   
+
+    escenario25.rotation.set(0,1.57,0);
+    escenario25.castShadow = true;
+
+//________________flores Verticales 3 traseras 1er nivel______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(-140,30,-90);
+   escenario25.scale.set(1.5,1.5,2.5);
+   
+
+    escenario25.rotation.set(0,1.57,0);
+    escenario25.castShadow = true;
+
+
+//________________flores Verticales 1  3er nivel______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(-50,88,0);
+   escenario25.scale.set(1.5,1.5,2.5);
+   
+
+    escenario25.rotation.set(0,1.57,0);
+    escenario25.castShadow = true;
+
+//________________flores Verticales 2  3er nivel______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(50,88,0);
+   escenario25.scale.set(1.5,1.5,2.5);
+   
+
+    escenario25.rotation.set(0,1.57,0);
+    escenario25.castShadow = true;
+
+//________________flores Verticales 1  2do nivel______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(-100,60,50);
+   escenario25.scale.set(1.5,1.5,2.5);
+   
+
+    escenario25.rotation.set(0,1.57,0);
+    escenario25.castShadow = true;
+
+//________________flores Verticales 2  2do nivel______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(-100,60,-50);
+   escenario25.scale.set(1.5,1.5,2.5);
+   
+
+    escenario25.rotation.set(0,1.57,0);
+    escenario25.castShadow = true;
+    //________________flores Verticales 1  2do nivel______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(100,60,50);
+   escenario25.scale.set(1.5,1.5,2.5);
+   
+
+    escenario25.rotation.set(0,1.57,0);
+    escenario25.castShadow = true;
+
+//________________flores Verticales 2  2do nivel______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(100,60,-50);
+   escenario25.scale.set(1.5,1.5,2.5);
+   
+
+    escenario25.rotation.set(0,1.57,0);
+    escenario25.castShadow = true;
+
+//piso_de_flores atras_______________________________________________________________-
+    
+//________________flores Verticales 1 traseras 1er nivel______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(-100,0,230);
+   escenario25.scale.set(1.5,1.5,2.5);
+   
+
+    escenario25.rotation.set(0,1.57,0);
+    escenario25.castShadow = true;
+    //piso_de_flores_______________________________________________________________-
+    
+//________________flores Verticales 2 traseras 1er nivel______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(-100,0,335);
+   escenario25.scale.set(1.5,1.5,2.5);
+   
+
+    escenario25.rotation.set(0,1.57,0);
+    escenario25.castShadow = true;
+//________________flores Verticales 3 traseras 1er nivel______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(-100,0,440);
+   escenario25.scale.set(1.5,1.5,2.5);
+   
+
+    escenario25.rotation.set(0,1.57,0);
+    escenario25.castShadow = true;
+
+//________________flores Verticales 4 piso______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(100,0,230);
+   escenario25.scale.set(1.5,1.5,2.5);
+   
+
+    escenario25.rotation.set(0,1.57,0);
+    escenario25.castShadow = true;
+    
+//________________flores Verticales 5 piso______________________
+    
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(100,0,335);
+   escenario25.scale.set(1.5,1.5,2.5);
+   
+
+    escenario25.rotation.set(0,1.57,0);
+    escenario25.castShadow = true;
+
+//________________flores Verticales 6 piso______________________
+
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(100,0,440);
+   escenario25.scale.set(1.5,1.5,2.5);
+   
+
+    escenario25.rotation.set(0,1.57,0);
+    escenario25.castShadow = true;
+
+//piso_de_flores atras_______________________________________________________________-
+    
+//________________flores Verticales 1 traseras 1er nivel______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(-100,0,-230);
+   escenario25.scale.set(1.5,1.5,2.5);
+   
+
+    escenario25.rotation.set(0,1.57,0);
+    escenario25.castShadow = true;
+    //piso_de_flores_______________________________________________________________-
+    
+//________________flores Verticales 2 traseras 1er nivel______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(-100,0,-335);
+   escenario25.scale.set(1.5,1.5,2.5);
+   
+
+    escenario25.rotation.set(0,1.57,0);
+    escenario25.castShadow = true;
+//________________flores Verticales 3 traseras 1er nivel______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(-100,0,-440);
+   escenario25.scale.set(1.5,1.5,2.5);
+   
+
+    escenario25.rotation.set(0,1.57,0);
+    escenario25.castShadow = true;
+
+//________________flores Verticales 4 piso______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(100,0,-230);
+   escenario25.scale.set(1.5,1.5,2.5);
+   
+
+    escenario25.rotation.set(0,1.57,0);
+    escenario25.castShadow = true;
+    
+//________________flores Verticales 5 piso______________________
+    
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(100,0,-335);
+   escenario25.scale.set(1.5,1.5,2.5);
+   
+
+    escenario25.rotation.set(0,1.57,0);
+    escenario25.castShadow = true;
+
+//________________flores Verticales 6 piso______________________
+
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(100,0,-440);
+   escenario25.scale.set(1.5,1.5,2.5);
+   
+
+    escenario25.rotation.set(0,1.57,0);
+    escenario25.castShadow = true;
+
+//piso_de_flores lateral_______________________________________________________________-
+
+//________________flores horizontales 1 traseras piso______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(-230,0,-102);
+   escenario25.scale.set(1.5,1.5,2.5);
+
+//________________flores horizontales 2 traseras piso______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(-335,0,-102);
+   escenario25.scale.set(1.5,1.5,2.5);
+
+   //________________flores horizontales 3 traseras piso______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(-425,0,-102);
+   escenario25.scale.set(1.5,1.5,2.5);
+
+//piso_de_flores lateral 1.1_______________________________________________________________-
+
+//________________flores horizontales 1 traseras piso______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(-230,0,102);
+   escenario25.scale.set(1.5,1.5,2.5);
+
+//________________flores horizontales 2 traseras piso______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(-335,0,102);
+   escenario25.scale.set(1.5,1.5,2.5);
+
+   //________________flores horizontales 3 traseras piso______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(-425,0,102);
+   escenario25.scale.set(1.5,1.5,2.5);
+
+//piso_de_flores lateral 2_______________________________________________________________-
+
+//________________flores horizontales 1 traseras piso______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(230,0,-102);
+   escenario25.scale.set(1.5,1.5,2.5);
+
+//________________flores horizontales 2 traseras piso______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(335,0,-102);
+   escenario25.scale.set(1.5,1.5,2.5);
+
+   //________________flores horizontales 3 traseras piso______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(425,0,-102);
+   escenario25.scale.set(1.5,1.5,2.5);
+
+//piso_de_flores lateral 2.1_______________________________________________________________-
+
+//________________flores horizontales 1 traseras piso______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(230,0,102);
+   escenario25.scale.set(1.5,1.5,2.5);
+
+//________________flores horizontales 2 traseras piso______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(335,0,102);
+   escenario25.scale.set(1.5,1.5,1.5);
+
+   //________________flores horizontales 3 traseras piso______________________
+   var escenario25= florh2({x:0,y:0,z:0});
+   scene.add(escenario25);
+
+   escenario25.position.set(425,0,102);
+   escenario25.scale.set(1.5,1.5,2.5);
+
+   //________________botella______________________
+   var escenario26= botella({x:0,y:0,z:0});
+   scene.add(escenario26);
+
+   escenario26.position.set(50,50,-150);
+   escenario26.scale.set(1,1,1);
+
+   //________________botella 2______________________
+   var escenario26= botella({x:0,y:0,z:0});
+   scene.add(escenario26);
+
+   escenario26.position.set(-50,50,-150);
+   escenario26.scale.set(1,1,1);
+
+   //________________botella 3______________________
+   var escenario26= botella({x:0,y:0,z:0});
+   scene.add(escenario26);
+
+   escenario26.position.set(-130,50,20);
+   escenario26.scale.set(1,1,1);
+
+ //________________botella 3______________________
+   var escenario26= botella({x:0,y:0,z:0});
+   scene.add(escenario26);
+
+   escenario26.position.set(110,50,70);
+   escenario26.scale.set(1,1,1);
+
+
+   //________________elote______________________
+   var escenario27= elote({x:0,y:0,z:0});
+   scene.add(escenario27);
+
+   escenario27.position.set(100,38,-80);
+   escenario27.scale.set(1,1,1);
+   escenario27.rotation.set(0,1.57,1.57);
+
+//________________elote 2______________________
+   var escenario27= elote({x:0,y:0,z:0});
+   scene.add(escenario27);
+
+   escenario27.position.set(-120,60,-190);
+   escenario27.scale.set(1,1,1);
+   escenario27.rotation.set(1.57,0,1.57);
+
+   //________________papel picado______________________
+   var escenario28= papelp({x:0,y:0,z:0});
+   scene.add(escenario28);
+
+   escenario28.position.set(0,-105,179);
+   escenario28.scale.set(4,4,4);
+   
+   //________________papel Dulce______________________
+   var escenario29= papelp2({x:0,y:0,z:0});
+   scene.add(escenario29);
+
+   escenario29.position.set(-100,-105,179);
+   escenario29.scale.set(4,4,4);
+
+   //________________papel Asurin______________________
+   var escenario30= papelp3({x:0,y:0,z:0});
+   scene.add(escenario30);
+
+   escenario30.position.set(-50,-105,179);
+   escenario30.scale.set(4,4,4);
+
+   //________________papel Melanie______________________
+   var escenario31= papelp4({x:0,y:0,z:0});
+   scene.add(escenario31);
+
+   escenario31.position.set(50,-105,179);
+   escenario31.scale.set(4,4,4);
+
+   //________________papel Ariadna______________________
+   var escenario32= papelp5({x:0,y:0,z:0});
+   scene.add(escenario32);
+
+   escenario32.position.set(100,-105,179);
+   escenario32.scale.set(4,4,4);
+
+
+//🎰🎰Rendering y animación
+    requestAnimationFrame(render);
+    function render() {
+// flor1.rotation.x +=0.01;
+//  flor2.rotation.y +=0.01;
+//   flor3.rotation.z +=0.01;
+    //🪄🪄 Animación -
+//mesh02.rotation.z +=0.01;
+//mesh03.rotation.z-=0.01;
+    //🎮🎮Actualización del OrbitControls para generar la suavidad de movimiento
+    controls.update();
+ 
+    //Llamado para renderizar y volver a llamar a la misma función (render)
+    renderer.render(scene, camera);
+    requestAnimationFrame(render);
+    }
+</script>
+</body>
+</html>
